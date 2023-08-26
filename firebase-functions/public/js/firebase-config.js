@@ -4,6 +4,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, on
 import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-functions.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-firestore.js";
 
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-database.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -21,4 +22,4 @@ const functions = getFunctions(app);
 const auth = getAuth(app);
 const firestore = getFirestore(app);
 
-export { functions, httpsCallable, auth, firestore, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut }
+export { functions, httpsCallable, auth, firestore, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut,  getDatabase, ref, set }

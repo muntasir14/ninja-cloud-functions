@@ -2,7 +2,7 @@
 const requestModal = document.querySelector('.new-request');
 const requestLink = document.querySelector('.add-request');
 // import { getFunctions, httpsCallable } from "firebase/functions";
-import { functions, httpsCallable } from "./firebase-config.js";
+import { functions, httpsCallable, getDatabase, ref, set } from "./firebase-config.js";
 
 
 // open request modal
@@ -30,3 +30,16 @@ requestModal.addEventListener('click', (e) => {
 
 
 
+const button = document.getElementById("test-button-id");
+
+// write on realtime database
+const writeFoodData = () => {
+  const db = getDatabase();
+  set(ref(db, 'AllFood/'), {
+    food4: "lamb"
+  });
+}
+
+button.addEventListener("click", () => {
+  writeFoodData();
+});

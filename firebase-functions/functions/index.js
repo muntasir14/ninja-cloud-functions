@@ -12,6 +12,8 @@ const {onCall, HttpsError} = require("firebase-functions/v2/https");
 const functions = require("firebase-functions");
 const logger = require("firebase-functions/logger");
 
+// database
+const {onValueCreated, onValueWritten} = require("firebase-functions/v2/database");
 // Create and deploy your first functions
 // https://firebase.google.com/docs/functions/get-started
 
@@ -54,4 +56,42 @@ exports.newUserSignup = functions.auth.user().onCreate(user => {
 // auth trigger (user deleted)
 exports.userDeleted = functions.auth.user().onDelete(user => {
   logger.log('user deleted', user.email, user.uid);
+});
+
+
+exports.onWrittenFunctionInstance = onValueWritten(
+  {
+    ref: "/AllFood",
+    instance: "ninja-cloud-functions-790c4-default-rtdb"
+    // This example assumes us-central1, but to set location:
+    // region: "europe-west1"
+  },
+  (event) => {
+    const val = event.data;
+    logger.log('new val written', val);
+  }
+);
+
+// from chat-gpt 
+exports.logNewData = functions.database.ref("/AllFood")
+    .onCreate((snapshot, context) => {
+        // Get the new data
+        const newData = snapshot.val();
+
+        // Log the new data
+        logger.log("New data:", newData);
+
+        return null; // Return null or a promise
+    });
+
+// from chat-gpt
+exports.foodModified = functions.database.ref("/AllFood")
+.onUpdate((change, context) => {
+    // Get the updated AllFood object
+    const updatedAllFood = change.after.val();
+
+    // Log the updated AllFood object
+    console.log("Updated AllFood:", updatedAllFood);
+
+    return null; // Return null or a promise
 });

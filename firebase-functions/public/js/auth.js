@@ -6,7 +6,7 @@ const registerForm = document.querySelector('.register');
 const loginForm = document.querySelector('.login');
 const signOutUI = document.querySelector('.sign-out');
 
-import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "./firebase-config.js";
+import * as firebase_configs from "./firebase-config.js";
 
 // toggle auth modals
 authSwitchtLinks.forEach(link => {
@@ -23,7 +23,7 @@ registerForm.addEventListener('submit', (e) => {
     const email = registerForm.email.value;
     const password = registerForm.password.value;
 
-    createUserWithEmailAndPassword(auth, email, password)
+    firebase_configs.createUserWithEmailAndPassword(firebase_configs.auth, email, password)
         .then((user) => {
             console.log('registered', user);
             registerForm.reset();
@@ -43,7 +43,7 @@ loginForm.addEventListener('submit', (e) => {
     const email = loginForm.email.value;
     const password = loginForm.password.value;
 
-    signInWithEmailAndPassword(auth, email, password)
+    firebase_configs.signInWithEmailAndPassword(firebase_configs.auth, email, password)
         .then((user) => {
             console.log('logged in', user);
             loginForm.reset();
@@ -57,12 +57,12 @@ loginForm.addEventListener('submit', (e) => {
 
 // sign out
 signOutUI.addEventListener('click', () => {
-    signOut(auth).then(() => console.log('signed out'));
+    firebase_configs.signOut(firebase_configs.auth).then(() => console.log('signed out'));
 })
 
 
 // auth listener 
-onAuthStateChanged(auth, (user) => {
+firebase_configs.onAuthStateChanged(firebase_configs.auth, (user) => {
     if (user) {
         authWrapper.classList.remove('open');
         authModals.forEach(modal => modal.classList.remove('active'));
